@@ -6,7 +6,7 @@ export default function Hero() {
       <div className="max-w-7xl mx-auto px-4">
         <p className="mb-3 text-center text-lg font-semibold text-[#4EFF22]">99.2% visas on time</p>
         <h1 className="text-center text-3xl font-bold text-white md:text-5xl">
-          Get Your Visa on Time with Atlys
+          Get Your Visa on Time with yralvisa
         </h1>
         <div className="max-w-2xl mx-auto absolute left-1/2 -translate-x-1/2 bottom-0 translate-y-1/2 w-full px-4">
           <div className="relative">

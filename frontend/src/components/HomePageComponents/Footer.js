@@ -2,8 +2,8 @@ import { FiMapPin } from 'react-icons/fi';
 
 const Footer = () => {
   const companyLinks = [
-    { name: 'Careers', href: '#' },
-    { name: 'Blog', href: '#' },
+    { name: 'Careers', href: '/careers'},
+    { name: 'Blog', href: '/blog' },
     { name: 'Newsroom', href: '#' },
     { name: 'Contact', href: '#' },
     { name: 'Partners', href: '#' },
@@ -18,15 +18,18 @@ const Footer = () => {
     { name: 'Visa Glossary', href: '#' },
     { name: 'UAE Status Checker', href: '#' },
     { name: 'Vietnam Status Checker', href: '#' },
+    { name: 'Passport Mobility Index', href: '#' },
+    { name: 'Schengen Appointment Checker', href: '#' },
   ];
 
   const productLinks = [
-    { name: 'AtlysX', href: '#' },
+    { name: 'yralvisa', href: '#' },
     { name: 'For Travel Agents', href: '#' },
     { name: 'Security', href: '#' },
     { name: 'Transparency', href: '#' },
     { name: 'Visa Pre Approval', href: '#' },
     { name: 'Vaya', href: '#' },
+    { name: '-1% Club', href: '#' },
     { name: 'U.S. Mock Interview', href: '#' },
   ];
 
@@ -124,7 +127,7 @@ const Footer = () => {
 
           <div className="w-full flex flex-col md:flex-row justify-between items-center mt-8 space-y-4 md:space-y-0">
             <div className="text-sm text-gray-600 space-x-3">
-              <span>&copy; {new Date().getFullYear()} Atlys, All rights reserved.</span>
+              <span>&copy; {new Date().getFullYear()} yralvisa.com, All rights reserved.</span>
               <a href="#" className="hover:underline">Privacy</a>
               <span>&bull;</span>
               <a href="#" className="hover:underline">Terms</a>
