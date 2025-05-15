@@ -12,6 +12,9 @@ const defaultCard = {
   visaCount: '',
   date: '',
   price: '',
+  category: '',
+  includesTruckIcon: false,
+  stickerVisa: false,
   trending: false,
 };
 
@@ -114,8 +117,7 @@ function AdminCardsPage() {
     if (search) {
       filtered = filtered.filter(card =>
         (card.country && card.country.toLowerCase().includes(search.toLowerCase())) ||
-        (card.price && card.price.toLowerCase().includes(search.toLowerCase())) ||
-        (card.statusText && card.statusText.toLowerCase().includes(search.toLowerCase()))
+        (card.price && card.price.toLowerCase().includes(search.toLowerCase()))
       );
     }
     if (categoryFilter) {
@@ -292,8 +294,8 @@ function AdminCardsPage() {
       </div>
       {/* Modal Form */}
       <Dialog open={showForm} onClose={() => setShowForm(false)} className="relative z-50">
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center">
-          <Dialog.Panel className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md relative">
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center p-4">
+          <Dialog.Panel className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md max-h-[90vh] overflow-y-auto relative">
             <button className="absolute top-2 right-2 text-gray-500 hover:text-black text-2xl" onClick={() => setShowForm(false)}>&times;</button>
             <Dialog.Title className="text-xl font-bold mb-4 text-primary">{editingCard ? 'Edit Card' : 'Add Card'}</Dialog.Title>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -303,12 +305,13 @@ function AdminCardsPage() {
                 {errors.country && <p className="text-red-500 text-sm mt-1">{errors.country.message}</p>}
               </div>
               <div>
-                <label className="block mb-1 font-medium">Image URL</label>
-                <input className="border rounded px-3 py-2 w-full" {...register('image', { required: true })} />
+                <label className="block mb-1 font-medium">Image URL <span className="text-red-500">*</span></label>
+                <input className="border rounded px-3 py-2 w-full" {...register('image', { required: 'Image URL is required' })} />
+                {errors.image && <p className="text-red-500 text-sm mt-1">{errors.image.message}</p>}
               </div>
               <div>
                 <label className="block mb-1 font-medium">Visa Count</label>
-                <input className="border rounded px-3 py-2 w-full" {...register('visaCount', { required: true })} />
+                <input className="border rounded px-3 py-2 w-full" {...register('visaCount')} />
               </div>
               <div>
                 <label className="block mb-1 font-medium">Date</label>
@@ -316,11 +319,23 @@ function AdminCardsPage() {
               </div>
               <div>
                 <label className="block mb-1 font-medium">Price</label>
-                <input className="border rounded px-3 py-2 w-full" {...register('price', { required: true })} />
+                <input className="border rounded px-3 py-2 w-full" {...register('price')} />
+              </div>
+              <div>
+                <label className="block mb-1 font-medium">Category</label>
+                <input className="border rounded px-3 py-2 w-full" {...register('category')} />
               </div>
               <div className="flex items-center gap-2">
                 <input type="checkbox" {...register('trending')} id="trending" />
                 <label htmlFor="trending" className="font-medium">Trending</label>
+              </div>
+              <div className="flex items-center gap-2">
+                <input type="checkbox" {...register('includesTruckIcon')} id="includesTruckIcon" />
+                <label htmlFor="includesTruckIcon" className="font-medium">Includes Truck Icon</label>
+              </div>
+              <div className="flex items-center gap-2">
+                <input type="checkbox" {...register('stickerVisa')} id="stickerVisa" />
+                <label htmlFor="stickerVisa" className="font-medium">Sticker Visa</label>
               </div>
               <button className="w-full bg-primary text-white py-2 rounded hover:bg-secondary" type="submit">
                 {editingCard ? 'Update Card' : 'Add Card'}
