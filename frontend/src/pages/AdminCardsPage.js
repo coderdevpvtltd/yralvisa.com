@@ -1,8 +1,10 @@
-import React, { useEffect, useState, useMemo } from 'react';
-import { useForm } from 'react-hook-form';
+import React, { useEffect, useState, useMemo, useRef } from 'react';
+import { useForm, Controller } from 'react-hook-form';
 import { FaEdit, FaTrash, FaPlus, FaSearch } from 'react-icons/fa';
 import { Dialog } from '@headlessui/react';
+import Select from 'react-select';
 import AdminLayout from '../components/AdminLayout';
+// import visaData from '../Datas/visaData'; // Import visaData
 
 const REACT_APP_API_URL = process.env.REACT_APP_REACT_APP_API_URL || 'http://localhost:5000';
 
@@ -17,6 +19,36 @@ const defaultCard = {
   stickerVisa: false,
   trending: false,
 };
+
+// Prepare country options for react-select using a comprehensive list of countries
+const allCountries = [
+  "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Antigua and Barbuda", "Argentina", "Armenia", "Australia", "Austria", "Azerbaijan",
+  "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bhutan", "Bolivia", "Bosnia and Herzegovina", "Botswana", "Brazil", "Brunei", "Bulgaria", "Burkina Faso", "Burundi",
+  "Cabo Verde", "Cambodia", "Cameroon", "Canada", "Central African Republic", "Chad", "Chile", "China", "Colombia", "Comoros", "Congo (Congo-Brazzaville)", "Costa Rica", "Côte d'Ivoire", "Croatia", "Cuba", "Cyprus", "Czechia (Czech Republic)",
+  "Democratic Republic of the Congo", "Denmark", "Djibouti", "Dominica", "Dominican Republic",
+  "Ecuador", "Egypt", "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia", "Eswatini (fmr. \"Swaziland\")", "Ethiopia",
+  "Fiji", "Finland", "France",
+  "Gabon", "Gambia", "Georgia", "Germany", "Ghana", "Greece", "Grenada", "Guatemala", "Guinea", "Guinea-Bissau", "Guyana",
+  "Haiti", "Holy See", "Honduras", "Hungary",
+  "Iceland", "India", "Indonesia", "Iran", "Iraq", "Ireland", "Israel", "Italy",
+  "Jamaica", "Japan", "Jordan",
+  "Kazakhstan", "Kenya", "Kiribati", "Kuwait", "Kyrgyzstan",
+  "Laos", "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg",
+  "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Marshall Islands", "Mauritania", "Mauritius", "Mexico", "Micronesia", "Moldova", "Monaco", "Mongolia", "Montenegro", "Morocco", "Mozambique", "Myanmar (formerly Burma)",
+  "Namibia", "Nauru", "Nepal", "Netherlands", "New Zealand", "Nicaragua", "Niger", "Nigeria", "North Korea", "North Macedonia", "Norway",
+  "Oman",
+  "Pakistan", "Palau", "Palestine State", "Panama", "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Poland", "Portugal",
+  "Qatar",
+  "Romania", "Russia", "Rwanda",
+  "Saint Kitts and Nevis", "Saint Lucia", "Saint Vincent and the Grenadines", "Samoa", "San Marino", "Sao Tome and Principe", "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore", "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "South Africa", "South Korea", "South Sudan", "Spain", "Sri Lanka", "Sudan", "Suriname", "Sweden", "Switzerland", "Syria",
+  "Tajikistan", "Tanzania", "Thailand", "Timor-Leste", "Togo", "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey", "Turkmenistan", "Tuvalu",
+  "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States of America", "Uruguay", "Uzbekistan",
+  "Vanuatu", "Venezuela", "Vietnam",
+  "Yemen",
+  "Zambia", "Zimbabwe"
+];
+
+const countryOptions = allCountries.map(country => ({ value: country, label: country }));
 
 // Pagination range helper inspired by user reference
 function getPageRange(currentPage, totalPages, PAGE_LIMIT = 5) {
@@ -54,7 +86,7 @@ function AdminCardsPage() {
   const [truckFilter, setTruckFilter] = useState(false);
   const [stickerFilter, setStickerFilter] = useState(false);
 
-  const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm({ defaultValues: defaultCard });
+  const { register, handleSubmit, reset, setValue, formState: { errors }, control } = useForm({ defaultValues: defaultCard });
 
   useEffect(() => {
     fetchCards();
@@ -74,17 +106,25 @@ function AdminCardsPage() {
 
   const onSubmit = async (data) => {
     console.log('Submitting card data:', data);
+
+    // Extract the value from react-select country object and use category string
+    const dataToSend = {
+      ...data,
+      country: data.country ? data.country.value : '',
+      category: data.category, // Use the category string directly
+    };
+
     if (editingCard) {
       await fetch(`${REACT_APP_API_URL}/api/cards/${editingCard._id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+        body: JSON.stringify(dataToSend),
       });
     } else {
       await fetch(`${REACT_APP_API_URL}/api/cards`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+        body: JSON.stringify(dataToSend),
       });
     }
     setShowForm(false);
@@ -177,10 +217,9 @@ function AdminCardsPage() {
           onChange={e => setCategoryFilter(e.target.value)}
         >
           <option value="">All Categories</option>
-          <option value="all">All</option>
-          <option value="week">Week</option>
-          <option value="month">Month</option>
-          <option value="instant">Instant</option>
+          <option value="Weekly">Weekly</option>
+          <option value="Monthly">Monthly</option>
+          <option value="Instant">Instant</option>
         </select>
         <label className="flex items-center gap-1 text-sm">
           <input type="checkbox" checked={truckFilter} onChange={e => setTruckFilter(e.target.checked)} />
@@ -301,29 +340,80 @@ function AdminCardsPage() {
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               <div>
                 <label className="block mb-1 font-medium">Country <span className="text-red-500">*</span></label>
-                <input className="border rounded px-3 py-2 w-full" {...register('country', { required: 'Country is required' })} />
+                <Controller
+                  name="country"
+                  control={control}
+                  rules={{ required: 'Country is required' }}
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      options={countryOptions}
+                      className="react-select-container"
+                      classNamePrefix="react-select"
+                      isClearable
+                      isSearchable
+                      placeholder="Select Country"
+                    />
+                  )}
+                />
                 {errors.country && <p className="text-red-500 text-sm mt-1">{errors.country.message}</p>}
               </div>
               <div>
                 <label className="block mb-1 font-medium">Image URL <span className="text-red-500">*</span></label>
-                <input className="border rounded px-3 py-2 w-full" {...register('image', { required: 'Image URL is required' })} />
+                <input className="border rounded px-3 py-2 w-full" {...register('image', { required: 'Image URL is required' })} placeholder="Enter image URL" />
                 {errors.image && <p className="text-red-500 text-sm mt-1">{errors.image.message}</p>}
               </div>
               <div>
                 <label className="block mb-1 font-medium">Visa Count</label>
-                <input className="border rounded px-3 py-2 w-full" {...register('visaCount')} />
+                <input className="border rounded px-3 py-2 w-full" {...register('visaCount')} placeholder="Enter visa count" />
               </div>
               <div>
                 <label className="block mb-1 font-medium">Date</label>
-                <input className="border rounded px-3 py-2 w-full" {...register('date')} />
+                <input
+                  type="date"
+                  className="border rounded px-3 py-2 w-full"
+                  {...register('date')}
+                  onChange={(e) => {
+                    const selectedDate = new Date(e.target.value);
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
+                    selectedDate.setHours(0, 0, 0, 0);
+
+                    const timeDiff = selectedDate.getTime() - today.getTime();
+                    const diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+                    let category = '';
+                    if (diffDays >= 0 && diffDays <= 1) {
+                      category = 'Instant';
+                    } else if (diffDays > 1 && diffDays <= 7) {
+                      category = 'Weekly';
+                    } else if (diffDays > 7 && diffDays <= 30) {
+                      category = 'Monthly';
+                    }
+
+                    setValue('category', category);
+                  }}
+                />
               </div>
               <div>
                 <label className="block mb-1 font-medium">Price</label>
-                <input className="border rounded px-3 py-2 w-full" {...register('price')} />
+                <input
+                  type="number"
+                  className="border rounded px-3 py-2 w-full"
+                  {...register('price', { valueAsNumber: true, validate: value => !isNaN(value) || 'Price must be a number' })}
+                  placeholder="Enter price"
+                />
+                {errors.price && <p className="text-red-500 text-sm mt-1">{errors.price.message}</p>}
               </div>
               <div>
                 <label className="block mb-1 font-medium">Category</label>
-                <input className="border rounded px-3 py-2 w-full" {...register('category')} />
+                <input
+                  type="text"
+                  className="border rounded px-3 py-2 w-full bg-gray-100 cursor-not-allowed"
+                  {...register('category')}
+                  readOnly
+                  placeholder="Auto-calculated based on date"
+                />
               </div>
               <div className="flex items-center gap-2">
                 <input type="checkbox" {...register('trending')} id="trending" />

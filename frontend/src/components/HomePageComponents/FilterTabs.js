@@ -2,7 +2,7 @@ import { FiGrid, FiMap, FiRefreshCcw } from 'react-icons/fi';
 import clsx from 'clsx';
 
 const FilterTabs = ({ activeFilter = '', onFilterChange }) => {
-  const filters = ['All', 'Instant', 'In a week', 'In a month'];
+  const filters = ['All', 'Instant', 'Weekly', 'Monthly'];
   return (
     <div className="max-w-7xl mx-auto px-4 pt-16 pb-2 flex justify-center items-center">
       <div className="flex items-center gap-2 bg-white rounded-md p-1 shadow-sm border">

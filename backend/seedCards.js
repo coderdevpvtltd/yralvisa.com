@@ -137,8 +137,8 @@ const dummyCards = [
 
 async function seed() {
   await mongoose.connect(MONGODB_URI);
-//   await Card.deleteMany({});
-  await Card.insertMany(dummyCards);
+  await Card.deleteMany({});
+//   await Card.insertMany(dummyCards);
   console.log('Dummy cards inserted!');
   mongoose.disconnect();
 }
