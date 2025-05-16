@@ -3,6 +3,7 @@ import React, { useState, useRef } from 'react';
 
 const navLinks = [
   { name: 'Cards', path: '/admin/cards' },
+  { name: 'Blogs', path: '/admin/blogs' },
   // Add more links here as needed
 ];
 

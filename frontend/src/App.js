@@ -8,6 +8,7 @@ import CareersPage from './pages/CareersPage';
 import BlogPage from './pages/BlogPage';
 import ProductPage from './pages/ProductPage';
 import AdminCardsPage from './pages/AdminCardsPage';
+import AdminBlogsPage from './pages/AdminBlogsPage';
 
 import Layout from './components/Layout';
 
@@ -20,6 +21,7 @@ function App() {
          <Route path="/blog" element={<Layout><BlogPage /></Layout>} />
          <Route path="/product-page" element={<ProductPage />} />
          <Route path="/admin/cards" element={<AdminCardsPage />} />
+         <Route path="/admin/blogs" element={<AdminBlogsPage />} />
       </Routes>
     </Router>
   );
