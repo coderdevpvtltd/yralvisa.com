@@ -23,9 +23,9 @@ const Footer = () => {
   ];
 
   const productLinks = [
-    { name: 'yralvisa', href: '#' },
+    { name: 'yralvisa', href: '/product-page' },
     { name: 'For Travel Agents', href: '#' },
-    { name: 'Security', href: '#' },
+    { name: 'Security', href: '/security' },
     { name: 'Transparency', href: '#' },
     { name: 'Visa Pre Approval', href: '#' },
     { name: 'Vaya', href: '#' },

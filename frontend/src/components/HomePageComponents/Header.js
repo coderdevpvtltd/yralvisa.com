@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 import { FiClock, FiUser, FiSearch, FiShield } from 'react-icons/fi';
 import clsx from 'clsx';
+import { useNavigate } from 'react-router-dom'; // Import for navigation
 
 const Header = () => {
   const [showNavbarSearch, setShowNavbarSearch] = useState(false);
+  const navigate = useNavigate(); // Initialize navigate function
 
   useEffect(() => {
     const mainHeroSearchBar = document.getElementById('main-hero-search-bar');
@@ -34,6 +36,11 @@ const Header = () => {
     };
   }, []);
 
+  // Handler to redirect to register page
+  const handleRegisterClick = () => {
+    navigate('/register');
+  };
+
   return (
     <nav className={clsx('bg-indigo-600 py-3 sticky top-0 z-50 transition-all duration-300')}>
       <div className="max-w-7xl mx-auto px-4 flex justify-between items-center">
@@ -61,7 +68,10 @@ const Header = () => {
               <div className="font-normal text-xs underline">Guaranteed</div>
             </div>
           </div>
-          <button className="p-1.5 text-white hover:bg-white/10 rounded-full">
+          <button 
+            className="p-1.5 text-white hover:bg-white/10 rounded-full"
+            onClick={handleRegisterClick} // Add onClick handler here
+          >
             <svg fill="none" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
               <g opacity="0.12">
                 <path d="M4 18.8C4 16.149 6.14903 14 8.8 14H15.2C17.851 14 20 16.149 20 18.8C20 20.5673 18.5673 22 16.8 22H7.2C5.43269 22 4 20.5673 4 18.8Z" fill="currentColor"></path>
@@ -89,4 +99,4 @@ const Header = () => {
   );
 };
 
-export default Header; 
+export default Header;
