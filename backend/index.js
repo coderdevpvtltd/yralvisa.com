@@ -2,10 +2,13 @@ const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
 const cors = require('cors');
+require('dotenv').config(); // Load environment variables from .env file
+
 app.use(express.json());
 app.use(cors());
+
 // MongoDB connection
-mongoose.connect('mongodb://localhost:27017/yralvisadb', {
+mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
