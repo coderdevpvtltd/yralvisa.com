@@ -8,7 +8,7 @@ This folder contains the frontend React application for yralvisa.com.
 2.  Install dependencies: `npm install`
 3.  Create a `.env` file in the root of the `frontend` directory.
 4.  Add the following line to your `.env` file, replacing the URL with your backend API URL:
-    `REACT_APP_REACT_APP_API_URL=http://localhost:5000`
+    `REACT_APP_API_URL=http://localhost:5000`
 5.  Start the development server: `npm start`
 
 **Available Routes:**
