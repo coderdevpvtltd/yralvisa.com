@@ -12,7 +12,7 @@ const Navbar = () => {
   return (
     <div className="w-full flex justify-between items-center p-4">
       <div className="flex items-center">
-        <div className="font-bold text-2xl">atlys</div>
+        <div className="font-bold text-2xl">yralvisa</div>
         <div className="text-xs ml-1 text-gray-500">visas on<br />time</div>
       </div>
       <div>

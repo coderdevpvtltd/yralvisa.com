@@ -38,7 +38,7 @@ const SecurityFeatures = () => {
         
         <FeatureCard 
           title="End-to-End Encryption"
-          description="Ensure that all data transmitted between your devices and Atlys servers is encrypted, unreachable to unauthorized parties."
+          description="Ensure that all data transmitted between your devices and yralvisa servers is encrypted, unreachable to unauthorized parties."
           benefit="Protects data during transit, ensuring privacy and security."
           hasImage={true}
         />
@@ -72,7 +72,7 @@ const SecurityFeatures = () => {
         </div>
         
         <p className="text-center">
-          Provides users with confidence that Atlys meets stringent security and privacy requirements.
+          Provides users with confidence that yralvisa meets stringent security and privacy requirements.
         </p>
       </div>
 

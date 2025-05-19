@@ -8,7 +8,7 @@ const AuthLayout = ({ children }) => {
       <header className="border-b border-gray-200 py-4 px-6">
         <div className="flex justify-between items-center max-w-7xl mx-auto">
           <div className="flex items-center">
-            <div className="text-2xl font-bold">atlys</div>
+            <div className="text-2xl font-bold">yralvisa</div>
             <div className="ml-1 text-xs text-indigo-600 font-semibold">VISAS ON TIME</div>
           </div>
           <div className="flex items-center space-x-4">

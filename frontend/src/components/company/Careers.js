@@ -54,7 +54,7 @@ const CareersSection = () => {
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center">
             <Link to="/" className="font-bold text-black">
-              atlys<sup>®</sup> VISAS ON TIME
+              yralvisa<sup>®</sup> VISAS ON TIME
             </Link>
             <div className="md:hidden">
               <button 
@@ -110,14 +110,14 @@ const CareersSection = () => {
             </div>
             <div className="md:w-1/2 mt-6 md:mt-0 md:pl-8">
               <h2 className="text-3xl font-bold mb-4">Our Story & Mission</h2>
-              <p className="mb-3">Atlys' mission is to enable every person on earth to travel freely.</p>
+              <p className="mb-3">yralvisa' mission is to enable every person on earth to travel freely.</p>
               <p className="mb-3">
-                Atlys was <strong>founded in 2021</strong> with the vision of simplifying the visa process. 
+                yralvisa was <strong>founded in 2021</strong> with the vision of simplifying the visa process. 
                 Our motto is: <strong>"Treat your customer like your date."</strong>
               </p>
               <p>
                 We automate the pain point of visas to enable efficient travel. One customer has applied for 
-                32 visas through Atlys in a year. We've processed <strong>1.2 million visas</strong> globally.
+                32 visas through yralvisa in a year. We've processed <strong>1.2 million visas</strong> globally.
               </p>
             </div>
           </div>
@@ -229,7 +229,7 @@ const CareersSection = () => {
 
             {/* Right side - Text */}
             <div className="md:w-1/2 mt-8 md:mt-0 md:pl-8">
-              <h2 className="text-4xl font-bold mb-4">Engineering at Atlys</h2>
+              <h2 className="text-4xl font-bold mb-4">Engineering at yralvisa</h2>
               <p className="text-xl mb-3">
                 We're a lean, high-performing group of just{" "}
                 <strong>24 engineers</strong>, each taking on some of the hardest

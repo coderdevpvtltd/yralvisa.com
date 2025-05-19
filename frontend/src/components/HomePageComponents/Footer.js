@@ -19,7 +19,7 @@ const Footer = () => {
     { name: 'UAE Status Checker', href: '#' },
     { name: 'Vietnam Status Checker', href: '#' },
     { name: 'Passport Mobility Index', href: '#' },
-    { name: 'Schengen Appointment Checker', href: '#' },
+    { name: 'Schengen Appointment Checker', href: '/schengenAppointment-checker' },
   ];
 
   const productLinks = [

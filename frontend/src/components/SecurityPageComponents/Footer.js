@@ -6,7 +6,7 @@ const Footer = () => {
       <div className="max-w-6xl mx-auto">
         <div className="mb-8">
           <div className="flex items-center">
-            <div className="font-bold text-2xl">atlys</div>
+            <div className="font-bold text-2xl">yralvisa</div>
             <div className="text-xs ml-1 text-gray-500">visas on<br />time</div>
           </div>
         </div>
@@ -48,7 +48,7 @@ const Footer = () => {
             <p className="text-gray-600 text-sm">301 Mission, San Francisco, CA, 94105</p>
             <p className="text-gray-600 text-sm">447 Broadway STE 851, New York, NY, 10013</p>
             <div className="mt-8">
-              <p className="text-gray-500 text-sm">© atlys, All rights reserved</p>
+              <p className="text-gray-500 text-sm">© yralvisa, All rights reserved</p>
             </div>
           </div>
         </div>
