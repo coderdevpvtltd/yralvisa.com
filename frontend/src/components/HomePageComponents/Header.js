@@ -1,14 +1,13 @@
 import { useState, useEffect } from 'react';
-import { FiSearch, FiShield } from 'react-icons/fi';
+import { FiClock, FiUser, FiSearch, FiShield } from 'react-icons/fi';
 import clsx from 'clsx';
-import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
   const [showNavbarSearch, setShowNavbarSearch] = useState(false);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const mainHeroSearchBar = document.getElementById('main-hero-search-bar');
+
     const handleScrollAndVisibility = () => {
       const isScrolledPastThreshold = window.scrollY > 50;
       let isHeroSearchVisible = false;
@@ -35,15 +34,12 @@ const Header = () => {
     };
   }, []);
 
-  const handleRegisterClick = () => {
-    navigate('/register');
-  };
-
   return (
-    <nav className={clsx('bg-[#1A1A2E] py-3 sticky top-0 z-50 transition-all duration-300 shadow-lg')}>
+    <nav className={clsx('bg-indigo-600 py-3 sticky top-0 z-50 transition-all duration-300')}>
       <div className="max-w-7xl mx-auto px-4 flex justify-between items-center">
         <div className="flex items-center space-x-2">
-          <span className="text-2xl font-bold text-[#FFD700]">yralvisa</span>
+          {/* Logo SVG here, you can replace with your own */}
+          <span className="text-2xl font-bold text-white">yralvisa</span>
         </div>
         <div className={clsx('flex-1 mx-4 transition-all duration-300 ease-in-out', showNavbarSearch ? 'opacity-100 translate-y-0 max-w-lg' : 'opacity-0 -translate-y-2 max-w-md pointer-events-none', 'hidden sm:flex')}>
           <div className="relative w-full">
@@ -53,22 +49,19 @@ const Header = () => {
             <input
               type="text"
               placeholder="Where to?"
-              className="w-full max-w-full rounded-2xl border border-gray-300 bg-white px-4 py-2.5 pl-10 font-medium transition-all placeholder:text-gray-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#FFD700]"
+              className="w-full max-w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 py-2.5 pl-10 font-medium transition-all placeholder:text-gray-600 focus:bg-white focus:outline-none"
             />
           </div>
         </div>
         <div className="flex items-center space-x-3 md:space-x-4">
-          <div className="flex items-center text-[#FFD700] space-x-2">
+          <div className="flex items-center text-white space-x-2">
             <FiShield size={26} className="hidden md:block" />
             <div className="text-sm hidden md:block">
               <div className="font-medium">On Time</div>
               <div className="font-normal text-xs underline">Guaranteed</div>
             </div>
           </div>
-          <button 
-            className="p-1.5 text-[#FFD700] hover:bg-white/10 rounded-full transition-colors"
-            onClick={handleRegisterClick}
-          >
+          <button className="p-1.5 text-white hover:bg-white/10 rounded-full">
             <svg fill="none" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
               <g opacity="0.12">
                 <path d="M4 18.8C4 16.149 6.14903 14 8.8 14H15.2C17.851 14 20 16.149 20 18.8C20 20.5673 18.5673 22 16.8 22H7.2C5.43269 22 4 20.5673 4 18.8Z" fill="currentColor"></path>
@@ -88,7 +81,7 @@ const Header = () => {
           <input
             type="text"
             placeholder="Where to?"
-            className="block w-full bg-white backdrop-blur-sm border border-gray-300 rounded-lg py-2.5 pl-10 pr-3 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#FFD700] focus:border-transparent sm:text-sm"
+            className="block w-full bg-white/90 backdrop-blur-sm border border-transparent rounded-lg py-2.5 pl-10 pr-3 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:border-transparent sm:text-sm"
           />
         </div>
       </div>
@@ -96,4 +89,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default Header; 
