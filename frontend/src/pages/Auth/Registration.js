@@ -1,28 +1,97 @@
 import { useState } from 'react';
 import { User } from 'lucide-react';
 
+const API_BASE_URL = 'http://localhost:5000/api'; // Update with your backend URL
+
+// API Service
+const apiService = {
+  register: async (userData) => {
+    const response = await fetch(`${API_BASE_URL}/auth/register`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(userData),
+    });
+    return response.json();
+  },
+  
+  login: async (credentials) => {
+    const response = await fetch(`${API_BASE_URL}/auth/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(credentials),
+    });
+    return response.json();
+  }
+};
 
 export default function Registration() {
   const [formData, setFormData] = useState({
-    name: '',
-    phone: '',
-    email: '',
+    fullname: '', // Changed from 'name' to 'fullname'
+    username: '',
     password: '',
-    role: 'user'
+    gender: 'male'
   });
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Registration form submitted:', formData);
-    // Here you would typically make an API call to register the user
-    // After successful registration, redirect to login page
-    alert('Registration successful! Redirecting to login...');
-    // In a real app, you would use React Router: navigate('/login');
+    setLoading(true);
+    setMessage('');
+
+    try {
+      // Validate form
+      if (!formData.fullname || !formData.username || !formData.password) {
+        setMessage('Please fill in all required fields');
+        setLoading(false);
+        return;
+      }
+
+      if (formData.password.length < 6) {
+        setMessage('Password must be at least 6 characters long');
+        setLoading(false);
+        return;
+      }
+
+      const response = await apiService.register(formData);
+      
+      if (response.success) {
+        setMessage('Registration successful! Redirecting to login...');
+        // Reset form
+        setFormData({
+          fullname: '', // Changed from 'name' to 'fullname'
+          username: '',
+          password: '',
+          gender: 'male'
+        });
+        
+        // Redirect to login after 2 seconds
+        setTimeout(() => {
+          window.location.href = '/login';
+        }, 2000);
+      } else {
+        // Handle validation errors array
+        if (response.errors && Array.isArray(response.errors)) {
+          setMessage(response.errors.join(', '));
+        } else {
+          setMessage(response.msg || 'Registration failed');
+        }
+      }
+    } catch (error) {
+      console.error('Registration error:', error);
+      setMessage('Network error. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -36,68 +105,80 @@ export default function Registration() {
           <p className="text-sm text-indigo-600">Sign up in no time.</p>
         </div>
 
+        {message && (
+          <div className={`mb-3 p-2 rounded text-sm ${
+            message.includes('successful') 
+              ? 'bg-green-100 text-green-700' 
+              : 'bg-red-100 text-red-700'
+          }`}>
+            {message}
+          </div>
+        )}
+
         <div className="space-y-2">
           <div>
-            <label className="block text-sm font-medium text-gray-700">Full Name</label>
+            <label className="block text-sm font-medium text-gray-700">Full Name *</label>
             <input
               type="text"
-              value={formData.name}
+              name="fullname" // Changed from 'name' to 'fullname'
+              value={formData.fullname}
               onChange={handleChange}
+              required
               className="w-full px-3 py-1 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500"
+              placeholder="Enter your full name"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700">Phone Number</label>
-            <div className="flex mt-1">
-              <div className="flex items-center px-2 bg-gray-100 border border-r-0 border-gray-300 rounded-l-md">
-                <span className="text-gray-500 text-sm">+91</span>
-              </div>
-              <input
-                type="tel"
-                value={formData.phone}
-                onChange={handleChange}
-                className="w-full px-3 py-1 border border-gray-300 rounded-r-md focus:outline-none focus:ring-1 focus:ring-indigo-500"
-              />
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Email</label>
+            <label className="block text-sm font-medium text-gray-700">Username *</label>
             <input
-              type="email"
-              value={formData.email}
+              type="text"
+              name="username"
+              value={formData.username}
               onChange={handleChange}
+              required
               className="w-full px-3 py-1 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500"
+              placeholder="Choose a username"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700">Password</label>
+            <label className="block text-sm font-medium text-gray-700">Password *</label>
             <input
               type="password"
+              name="password"
               value={formData.password}
               onChange={handleChange}
+              required
               className="w-full px-3 py-1 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500"
+              placeholder="At least 6 characters"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700">Role</label>
+            <label className="block text-sm font-medium text-gray-700">Gender</label>
             <select
-              value={formData.role}
+              name="gender"
+              value={formData.gender}
               onChange={handleChange}
               className="w-full px-3 py-1 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500"
             >
-              <option value="user">User</option>
-              <option value="admin">Admin</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
             </select>
           </div>
 
           <button 
-            className="w-full py-1 mt-3 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:ring-offset-1"
+            onClick={handleSubmit}
+            disabled={loading}
+            className={`w-full py-1 mt-3 text-sm font-medium text-white rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:ring-offset-1 ${
+              loading 
+                ? 'bg-gray-400 cursor-not-allowed' 
+                : 'bg-indigo-600 hover:bg-indigo-700'
+            }`}
           >
-            Register
+            {loading ? 'Registering...' : 'Register'}
           </button>
         </div>
 
