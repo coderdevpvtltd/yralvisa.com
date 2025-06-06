@@ -36,6 +36,7 @@ const Header = () => {
   }, []);
 
   const handleRegisterClick = () => {
+    console.log('Register button clicked'); // Add this for debugging
     navigate('/register');
   };
 
